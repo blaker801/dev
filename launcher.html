@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS PORT Launcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(to bottom, #0a0e27, #1a1a2e, #16213e);
+            color: #00ff88;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+        
+        .launcher-container {
+            text-align: center;
+            border: 2px solid #00ff88;
+            padding: 40px;
+            background: rgba(0, 15, 30, 0.9);
+            border-radius: 3px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+        
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: flicker 0.15s infinite;
+        }
+        
+        .description {
+            font-size: 14px;
+            color: #00dd77;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .launch-btn {
+            padding: 12px 30px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #00ff88;
+            background: transparent;
+            color: #00ff88;
+            cursor: pointer;
+            border-radius: 3px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        
+        .launch-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .launch-btn.blank {
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        
+        .launch-btn.blank:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            }
+            20%, 24%, 55% {
+                text-shadow: 0 0 5px rgba(0, 255, 136, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher-container">
+        <div class="title">
+            ╔═══════════════════════════════════════════╗
+            ║     NEXUS PORT - LAUNCHER TERMINAL        ║
+            ╚═══════════════════════════════════════════╝
+        </div>
+        <div class="description">
+            Choose your launch method:<br>
+            Launch in blank tab to bypass filters
+        </div>
+        <div class="btn-group">
+            <button class="launch-btn" onclick="launchNormal()">
+                [ NORMAL LAUNCH ]
+            </button>
+            <button class="launch-btn blank" onclick="launchBlank()">
+                [ ABOUT:BLANK MODE ]
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function launchNormal() {
+            window.location.href = 'index.html';
+        }
+
+        function launchBlank() {
+            const blankWin = window.open('about:blank', '_blank');
+            
+            // Wait for blank page to load
+            blankWin.addEventListener('load', () => {
+                injectSite(blankWin);
+            });
+            
+            // For some browsers that load instantly
+            setTimeout(() => {
+                if (blankWin.document.body) {
+                    injectSite(blankWin);
+                }
+            }, 100);
+        }
+
+        function injectSite(win) {
+            const doc = win.document;
+            
+            // Write HTML structure
+            doc.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS PORT - Unblocked Games Terminal</title>
+    <style id="site-styles"></style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="header-title">
+                ╔═══════════════════════════════════════════════════════════╗
+                ║         NEXUS PORT v2.4.1 - UNBLOCKED GAMES PORTAL        ║
+                ║           [CLASSIFIED ACCESS - AUTHORIZED ONLY]           ║
+                ╚═══════════════════════════════════════════════════════════╝
+            </div>
+            <div class="system-status">
+                <span class="status-indicator">●</span> ONLINE
+                <span class="divider">|</span>
+                <span id="game-count">0</span> GAMES AVAILABLE
+                <span class="divider">|</span>
+                STATUS: ACTIVE
+            </div>
+        </div>
+
+        <div class="terminal-body">
+            <div class="sidebar">
+                <div class="panel system-info">
+                    <div class="panel-header">SYS_INFO</div>
+                    <div class="panel-content">
+                        <div class="info-line">USER: player@nexus</div>
+                        <div class="info-line">ACCESS: UNRESTRICTED</div>
+                        <div class="info-line">FIREWALL: DISABLED</div>
+                        <div class="info-line">SESSION: ANONYMOUS</div>
+                    </div>
+                </div>
+
+                <div class="panel filters">
+                    <div class="panel-header">FILTER</div>
+                    <div class="panel-content">
+                        <button class="filter-btn active" data-filter="all">ALL</button>
+                        <button class="filter-btn" data-filter="action">ACTION</button>
+                        <button class="filter-btn" data-filter="puzzle">PUZZLE</button>
+                        <button class="filter-btn" data-filter="classic">CLASSIC</button>
+                    </div>
+                </div>
+
+                <div class="panel game-manager">
+                    <div class="panel-header">GAME_MANAGER</div>
+                    <div class="panel-content">
+                        <button class="tab-btn active" data-tab="view-mode">VIEW</button>
+                        <button class="tab-btn" data-tab="add-mode">ADD</button>
+                    </div>
+                    <div id="viewMode" class="tab-content active">
+                        <div style="font-size: 10px; color: #00dd77; padding: 8px 0; border-bottom: 1px solid #00ff88; margin-bottom: 8px;">
+                            Total Games Loaded:
+                        </div>
+                        <div style="font-size: 12px; color: #00ff88; font-weight: bold; text-align: center; padding: 8px;">
+                            <span id="sidebarGameCount">0</span>
+                        </div>
+                    </div>
+                    <div id="addMode" class="tab-content">
+                        <form id="gameManagerForm" class="game-manager-form">
+                            <input type="text" id="gmName" placeholder="Game Title" required>
+                            <input type="text" id="gmUrl" placeholder="Game URL" required>
+                            <textarea id="gmDescription" placeholder="Description" rows="2"></textarea>
+                            <select id="gmCategory">
+                                <option value="action">ACTION</option>
+                                <option value="puzzle">PUZZLE</option>
+                                <option value="classic">CLASSIC</option>
+                            </select>
+                            <button type="submit" class="gm-submit-btn">DEPLOY</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="search-section">
+                    <input type="text" id="searchInput" class="search-bar" placeholder=">>> SEARCH GAMES...">
+                    <div class="scan-line"></div>
+                </div>
+
+                <div class="games-grid" id="gamesGrid">
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal-footer">
+            <div class="footer-text">Running in ABOUT:BLANK mode - Undetectable</div>
+        </div>
+    </div>
+
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="gameContainer" style="width: 100%; height: 600px;"></div>
+        </div>
+    </div>
+
+    <div id="calculatorWidget" class="calculator-widget">
+        <button id="calcToggleBtn" class="calc-toggle-btn">CALC</button>
+        <div id="calcContainer" class="calc-container" style="display: none;">
+            <button id="calcCloseBtn" class="calc-close-btn">✕</button>
+            <iframe src="https://www.desmos.com/scientific" style="width: 100%; height: 100%; border: none; border-radius: 3px;"></iframe>
+        </div>
+    </div>
+
+    <script id="site-scripts"><\/script>
+</body>
+</html>`);
+            
+            // Get CSS
+            fetch('/workspaces/dev/style.css')
+                .then(r => r.text())
+                .then(css => {
+                    doc.getElementById('site-styles').textContent = css;
+                })
+                .catch(() => {
+                    // Fallback CSS hardcoded
+                    loadCSS(doc);
+                });
+            
+            // Get JS
+            fetch('/workspaces/dev/script.js')
+                .then(r => r.text())
+                .then(js => {
+                    doc.getElementById('site-scripts').textContent = js;
+                    // Execute init after script loads
+                    setTimeout(() => {
+                        if (win.init) win.init();
+                    }, 100);
+                })
+                .catch(() => {
+                    console.error('Could not load script');
+                });
+            
+            doc.close();
+        }
+
+        function loadCSS(doc) {
+            // Minimal fallback CSS if external load fails
+            const fallbackCSS = `
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body { font-family: 'Courier New', monospace; background: linear-gradient(to bottom, #0a0e27, #1a1a2e, #16213e); color: #00ff88; }
+                .terminal-container { width: 100%; height: 100vh; display: flex; flex-direction: column; border: 2px solid #00ff88; }
+                .terminal-header { background: linear-gradient(to right, #0a0e27, #1a1a2e); border-bottom: 2px solid #00ff88; padding: 15px 20px; }
+                .terminal-body { display: flex; flex: 1; padding: 15px; gap: 15px; }
+                .sidebar { width: 250px; display: flex; flex-direction: column; gap: 15px; }
+                .main-content { flex: 1; display: flex; flex-direction: column; }
+                .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; flex: 1; overflow-y: auto; }
+            `;
+            doc.getElementById('site-styles').textContent = fallbackCSS;
+        }
+    </script>
+</body>
+</html>
