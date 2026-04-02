@@ -85,6 +85,7 @@ const gameCounts = document.getElementById('game-count');
 const surveyBtn = document.getElementById('surveyBtn');
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
 
 let currentGame = null;
 
@@ -122,6 +123,11 @@ function setupEventListeners() {
     document.querySelectorAll('.close').forEach(btn => {
         btn.addEventListener('click', closeModals);
     });
+
+    // Fullscreen button
+    if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+    }
 
     window.addEventListener('click', (e) => {
         if (e.target === gameModal) {
@@ -241,6 +247,34 @@ function handleSearch(e) {
 
 function closeModals() {
     gameModal.style.display = 'none';
+    gameModal.classList.remove('fullscreen');
+    if (fullscreenBtn) {
+        fullscreenBtn.classList.remove('active');
+        fullscreenBtn.textContent = '⛶ FULLSCREEN';
+    }
+}
+
+function toggleFullscreen() {
+    gameModal.classList.toggle('fullscreen');
+    if (gameModal.classList.contains('fullscreen')) {
+        fullscreenBtn.classList.add('active');
+        fullscreenBtn.textContent = '⛶ EXIT FULLSCREEN';
+        // Handle keyboard escape key
+        document.addEventListener('keydown', handleFullscreenEscape);
+    } else {
+        fullscreenBtn.classList.remove('active');
+        fullscreenBtn.textContent = '⛶ FULLSCREEN';
+        document.removeEventListener('keydown', handleFullscreenEscape);
+    }
+}
+
+function handleFullscreenEscape(e) {
+    if (e.key === 'Escape') {
+        gameModal.classList.remove('fullscreen');
+        fullscreenBtn.classList.remove('active');
+        fullscreenBtn.textContent = '⛶ FULLSCREEN';
+        document.removeEventListener('keydown', handleFullscreenEscape);
+    }
 }
 
 function updateGameCount() {
