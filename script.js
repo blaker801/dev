@@ -114,7 +114,7 @@ function setupEventListeners() {
     // Survey button
     if (surveyBtn) {
         surveyBtn.addEventListener('click', () => {
-            window.open('https://docs.google.com/forms/d/1Ec3HJY1hDFvaS-j15yyQes0O7-kGaC61V2R_51NllFk/edit', '_blank');
+            window.open('https://forms.gle/BQk22GNrgejdEQwn7', '_blank');
         });
     }
 
